@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>basemakers — Web Developer & Designer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --glass: rgba(255,255,255,0.10);
+      --glass-border: rgba(255,255,255,0.22);
+      --glass-strong: rgba(255,255,255,0.16);
+      --accent: #7efff5;
+      --accent2: #a78bfa;
+      --accent3: #f9a8d4;
+      --text: #f0f4ff;
+      --muted: rgba(220,230,255,0.58);
+      --bg1: #0b0f2a;
+      --bg2: #12133a;
+      --radius: 20px;
+      --blur: blur(18px);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg1);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Background orbs ── */
+    .bg-orbs {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .orb {
+      position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.35;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 560px; height: 560px; background: #6c63ff; top: -120px; left: -140px; animation-delay: 0s; }
+    .orb-2 { width: 420px; height: 420px; background: #0ea5e9; top: 40%; right: -100px; animation-delay: -6s; }
+    .orb-3 { width: 380px; height: 380px; background: #ec4899; bottom: -100px; left: 30%; animation-delay: -12s; }
+    @keyframes drift {
+      from { transform: translate(0,0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    /* ── Navbar ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(11,15,42,0.55);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.5rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500; letter-spacing: 0.03em;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      padding: 9px 22px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #0b0f2a !important; font-weight: 700 !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* ── Sections base ── */
+    section { position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding-top: 90px;
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: var(--blur);
+      padding: 7px 16px; border-radius: 50px;
+      font-size: 0.8rem; color: var(--accent); font-weight: 500;
+      margin-bottom: 24px;
+      animation: fadeUp 0.7s ease both;
+    }
+    .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 800; line-height: 1.1;
+      letter-spacing: -1.5px;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%, var(--accent3) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      margin-top: 20px; color: var(--muted); font-size: 1.05rem; line-height: 1.7;
+      max-width: 480px;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-btns {
+      display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn-primary {
+      padding: 13px 30px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #0b0f2a; font-weight: 700; font-size: 0.95rem;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 24px rgba(126,255,245,0.25);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(126,255,245,0.35); }
+    .btn-ghost {
+      padding: 12px 28px; border-radius: 50px;
+      background: var(--glass); backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      color: var(--text); font-size: 0.95rem; font-weight: 500;
+      text-decoration: none; cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-ghost:hover { background: var(--glass-strong); transform: translateY(-2px); }
+
+    .hero-card {
+      background: var(--glass); backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px; padding: 40px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .avatar-wrap {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800;
+      color: #0b0f2a; margin-bottom: 20px;
+    }
+    .hero-card h3 { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; }
+    .hero-card p { color: var(--muted); font-size: 0.9rem; margin-top: 6px; line-height: 1.6; }
+    .stat-row { display: flex; gap: 24px; margin-top: 28px; }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .fiverr-tag {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(26,182,93,0.15); border: 1px solid rgba(26,182,93,0.3);
+      border-radius: 50px; padding: 6px 14px;
+      font-size: 0.8rem; color: #1ab25d; font-weight: 600;
+      margin-top: 20px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Section headers ── */
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800; letter-spacing: -0.8px; line-height: 1.15;
+    }
+    .section-title span {
+      background: linear-gradient(135deg, var(--accent2), var(--accent3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    /* ── About ── */
+    #about { padding: 120px 0; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .about-text p { color: var(--muted); line-height: 1.8; font-size: 1rem; margin-top: 16px; }
+    .about-features { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+    .feat {
+      display: flex; align-items: flex-start; gap: 14px;
+      background: var(--glass); backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border); border-radius: 14px;
+      padding: 16px 18px;
+      transition: background 0.25s, transform 0.25s;
+    }
+    .feat:hover { background: var(--glass-strong); transform: translateX(4px); }
+    .feat-icon {
+      font-size: 1.3rem; width: 38px; height: 38px; min-width: 38px;
+      background: linear-gradient(135deg, rgba(126,255,245,0.15), rgba(167,139,250,0.15));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    }
+    .feat-title { font-weight: 600; font-size: 0.92rem; }
+    .feat-desc { color: var(--muted); font-size: 0.83rem; margin-top: 2px; line-height: 1.5; }
+
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .skill-tag {
+      padding: 7px 16px; border-radius: 50px;
+      background: var(--glass); backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border);
+      font-size: 0.82rem; font-weight: 500; color: var(--muted);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .skill-tag:hover { color: var(--text); border-color: var(--accent); }
+
+    /* ── Portfolio ── */
+    #portfolio { padding: 120px 0; }
+    .portfolio-header { text-align: center; margin-bottom: 56px; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .card {
+      background: var(--glass); backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border); border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.35); }
+    .card-img {
+      height: 180px; display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; position: relative; overflow: hidden;
+    }
+    .card-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(11,15,42,0.7));
+    }
+    .card-body { padding: 22px; }
+    .card-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; }
+    .tag {
+      font-size: 0.72rem; padding: 3px 10px; border-radius: 50px;
+      background: rgba(126,255,245,0.1); border: 1px solid rgba(126,255,245,0.2);
+      color: var(--accent); font-weight: 600; letter-spacing: 0.03em;
+    }
+    .card-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; }
+    .card-desc { color: var(--muted); font-size: 0.85rem; line-height: 1.6; margin-top: 8px; }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 22px; border-top: 1px solid var(--glass-border);
+    }
+    .card-link {
+      font-size: 0.82rem; color: var(--accent); font-weight: 600;
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
+      transition: gap 0.2s;
+    }
+    .card-link:hover { gap: 9px; }
+
+    /* card colours */
+    .c1 { background: linear-gradient(135deg, #1a1a4e, #2d1b69); }
+    .c2 { background: linear-gradient(135deg, #0c2a3a, #0e4060); }
+    .c3 { background: linear-gradient(135deg, #2a0c1e, #5c1639); }
+    .c4 { background: linear-gradient(135deg, #0c2a1a, #145c36); }
+    .c5 { background: linear-gradient(135deg, #2a1f0c, #5c4316); }
+    .c6 { background: linear-gradient(135deg, #1a0c2a, #3d1269); }
+
+    /* ── Services ── */
+    #services { padding: 120px 0; }
+    .services-header { text-align: center; margin-bottom: 56px; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .service-card {
+      background: var(--glass); backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border); border-radius: var(--radius);
+      padding: 36px 28px;
+      transition: transform 0.3s, background 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at 60% 0%, rgba(126,255,245,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .service-card:hover { transform: translateY(-4px); background: var(--glass-strong); }
+    .svc-icon {
+      font-size: 2rem; width: 56px; height: 56px;
+      background: linear-gradient(135deg, rgba(126,255,245,0.15), rgba(167,139,250,0.15));
+      border: 1px solid var(--glass-border); border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .svc-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem; margin-bottom: 10px; }
+    .svc-desc { color: var(--muted); font-size: 0.88rem; line-height: 1.7; }
+    .svc-price {
+      margin-top: 20px; font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .svc-price span { font-size: 0.8rem; color: var(--muted); -webkit-text-fill-color: var(--muted); font-weight: 400; }
+
+    /* ── Testimonials ── */
+    #testimonials { padding: 120px 0; }
+    .test-header { text-align: center; margin-bottom: 56px; }
+    .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .test-card {
+      background: var(--glass); backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border); border-radius: var(--radius);
+      padding: 30px;
+    }
+    .stars { color: #fbbf24; font-size: 1rem; letter-spacing: 2px; margin-bottom: 14px; }
+    .test-text { color: var(--muted); font-size: 0.9rem; line-height: 1.7; font-style: italic; }
+    .test-author { display: flex; align-items: center; gap: 12px; margin-top: 20px; }
+    .author-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem; color: #0b0f2a;
+    }
+    .author-name { font-weight: 600; font-size: 0.88rem; }
+    .author-loc { font-size: 0.78rem; color: var(--muted); }
+
+    /* ── Contact ── */
+    #contact { padding: 120px 0; }
+    .contact-inner {
+      background: var(--glass); backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-border); border-radius: 32px;
+      padding: 64px; text-align: center; max-width: 700px; margin: 0 auto;
+      position: relative; overflow: hidden;
+    }
+    .contact-inner::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent2), transparent);
+    }
+    .contact-inner h2 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; margin-bottom: 14px; }
+    .contact-inner p { color: var(--muted); font-size: 1rem; line-height: 1.7; max-width: 480px; margin: 0 auto 32px; }
+    .contact-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      display: flex; align-items: center; gap: 9px;
+      padding: 12px 24px; border-radius: 50px;
+      background: var(--glass); border: 1px solid var(--glass-border);
+      backdrop-filter: var(--blur);
+      color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+      transition: background 0.2s, transform 0.2s, border-color 0.2s;
+    }
+    .contact-link:hover { background: var(--glass-strong); transform: translateY(-2px); border-color: var(--accent); }
+    .contact-link.fiverr { border-color: rgba(26,182,93,0.4); color: #1ab25d; }
+    .contact-link.fiverr:hover { background: rgba(26,182,93,0.1); border-color: #1ab25d; }
+
+    /* ── Footer ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--glass-border);
+      padding: 32px 0;
+      text-align: center;
+      color: var(--muted); font-size: 0.85rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero-inner, .about-grid { grid-template-columns: 1fr; }
+      .hero-card { display: none; }
+      .portfolio-grid, .services-grid, .test-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      #contact .contact-inner { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">basemakers.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact" class="nav-cta">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge"><span class="badge-dot"></span> Available for freelance projects</div>
+        <h1 class="hero-title">
+          Crafting clean<br /><span>landing pages</span><br />that convert.
+        </h1>
+        <p class="hero-sub">
+          HTML &amp; CSS developer specializing in fast-loading, beautifully designed landing pages — hosted on GitHub, built with care.
+        </p>
+        <div class="hero-btns">
+          <a href="#portfolio" class="btn-primary">View My Work</a>
+          <a href="#contact" class="btn-ghost">Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="avatar-wrap">A</div>
+        <h3>basemakers</h3>
+        <p>Web Developer &amp; Designer<br />Freelancer · College Student</p>
+        <div class="stat-row">
+          <div class="stat"><div class="stat-num">6yr</div><div class="stat-label">Experience</div></div>
+        </div>
+        <div class="fiverr-tag">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 10.5c-1.1 0-2-.9-2-2h-2c0 2.2 1.8 4 4 4v7h2v-7c0-1.1-.9-2-2-2zm-7 0v9H11V10.5H8V8.5h7v2zm-8.5 0c0 1.1-.9 2-2 2V14c2.2 0 4-1.8 4-4H5zm0-4.5A2.5 2.5 0 115 8.5a2.5 2.5 0 010-2.5z"/></svg>
+          Available on Fiverr
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">About Me</p>
+        <h2 class="section-title">Passionate about <span>design</span> &amp; the web.</h2>
+        <p>Hey, I'm Alex. I'm a college student who got into web design because I genuinely enjoy building things that look good and actually work. I build clean, fast landing pages for small businesses, creators, and anyone who wants a solid web presence without paying agency prices.</p>
+        <p style="margin-top:14px">I freelance on Fiverr and keep everything simple: plain HTML and CSS, no bloated frameworks, hosted for free on GitHub Pages. You get a real professional site and don't have to pay for hosting every month.</p>
+        <p style="margin-top:14px">I keep it simple, make it look good, and get it done fast.</p>
+
+        <div class="skills-grid" style="margin-top:28px;">
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">GitHub Pages</span>
+          <span class="skill-tag">Responsive Design</span>
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Animations</span>
+          <span class="skill-tag">SEO Basics</span>
+        </div>
+      </div>
+
+      <div class="about-features">
+        <div class="feat">
+          <div class="feat-icon">🎓</div>
+          <div>
+            <div class="feat-title">College Student</div>
+            <div class="feat-desc">Studying computer science and design, applying classroom knowledge to real client projects.</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">⚡</div>
+          <div>
+            <div class="feat-title">Speed-First Pages</div>
+            <div class="feat-desc">Every site I build is lean, minimal, and loads in under 2 seconds — no bloated frameworks.</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🐙</div>
+          <div>
+            <div class="feat-title">Free GitHub Hosting</div>
+            <div class="feat-desc">All projects hosted on GitHub Pages at zero cost — a huge advantage for clients on a budget.</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🎨</div>
+          <div>
+            <div class="feat-title">Design Passion</div>
+            <div class="feat-desc">Detail-obsessed: from color theory to micro-animations, every element has a purpose.</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🛒</div>
+          <div>
+            <div class="feat-title">Fiverr Freelancer</div>
+            <div class="feat-desc">Find me on Fiverr for transparent pricing and quick delivery.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="container">
+    <div class="portfolio-header">
+      <p class="section-label">Portfolio</p>
+      <h2 class="section-title">Recent <span>work.</span></h2>
+    </div>
+    <div class="portfolio-grid" style="grid-template-columns: repeat(2, 1fr);">
+
+      <a href="https://gardenofgreen.github.io/home/" target="_blank" class="card" style="text-decoration:none; color:inherit; display:block;">
+        <div class="card-img c4" style="flex-direction:column; gap:6px;">
+          🌿
+          <span style="font-size:0.72rem; color:rgba(180,255,180,0.55); letter-spacing:0.08em; position:relative; z-index:1;">Backyard Nursery · eBay</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags"><span class="tag">Landing Page</span><span class="tag">Plants</span><span class="tag">eBay Shop</span></div>
+          <div class="card-title">Garden of Green — Homegrown Backyard Nursery</div>
+          <div class="card-desc">A warm, organic landing page for a homegrown backyard nursery. Includes a plant care guide, personal story section, and direct eBay shop link. 100% organic, naturally grown, no pesticides.</div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size:0.78rem;color:var(--muted)">GitHub Pages</span>
+          <span class="card-link">View Live →</span>
+        </div>
+      </a>
+
+      <a href="https://base-html.github.io/golden_exchange/" target="_blank" class="card" style="text-decoration:none; color:inherit; display:block;">
+        <div class="card-img c5" style="flex-direction:column; gap:6px;">
+          ✦
+          <span style="font-size:0.72rem; color:rgba(255,220,130,0.55); letter-spacing:0.08em; position:relative; z-index:1;">Curated Threads · Los Angeles</span>
+        </div>
+        <div class="card-body">
+          <div class="card-tags"><span class="tag">Landing Page</span><span class="tag">Vintage / Resale</span><span class="tag">Depop</span></div>
+          <div class="card-title">golden_exchange — Curated Threads</div>
+          <div class="card-desc">Sleek editorial landing for a 5-star Depop resale shop. Features an animated marquee, category grid for sneakers, vintage &amp; streetwear, and a Depop shop CTA. Sourced &amp; authenticated by Bee, Los Angeles.</div>
+        </div>
+        <div class="card-footer">
+          <span style="font-size:0.78rem;color:var(--muted)">GitHub Pages</span>
+          <span class="card-link">View Live →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="services-header">
+      <p class="section-label">What I Offer</p>
+      <h2 class="section-title">Services &amp; <span>pricing.</span></h2>
+    </div>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="svc-icon">🚀</div>
+        <div class="svc-title">Landing Page</div>
+        <div class="svc-desc">A single, clean landing page with hero, about, and CTA. Perfect for personal brands and side projects. You'll receive the HTML file as your delivery. Delivery time up to 1 week.</div>
+        <div class="svc-price">$50 <span>/ page</span></div>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-icon">🐙</div>
+        <div class="svc-title">GitHub Pages Setup</div>
+        <div class="svc-desc">I'll set up your site on GitHub Pages with a custom domain so it's live and free to host forever.</div>
+        <div class="svc-price">$15 <span>/ setup</span></div>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-icon">💬</div>
+        <div class="svc-title">Custom</div>
+        <div class="svc-desc">Have something specific in mind? Message me and we can discuss what you want and work out the price details.</div>
+        <div class="svc-price">Custom <span>/ project</span></div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 48px;">
+      <p class="section-label" style="margin-bottom: 16px;">Add-Ons</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+
+        <div style="background: var(--glass); backdrop-filter: var(--blur); border: 1px solid var(--glass-border); border-radius: 14px; padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex: 1; min-width: 220px;">
+          <div>
+            <div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;">⚡ Rush Delivery</div>
+            <div style="color: var(--muted); font-size: 0.82rem; margin-top: 4px;">Guaranteed 2-day delivery.</div>
+          </div>
+          <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap;">+$25</div>
+        </div>
+
+        <div style="background: var(--glass); backdrop-filter: var(--blur); border: 1px solid var(--glass-border); border-radius: 14px; padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex: 1; min-width: 220px;">
+          <div>
+            <div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem;">📱 QR Code</div>
+            <div style="color: var(--muted); font-size: 0.82rem; margin-top: 4px;">QR code that links directly to your site.</div>
+          </div>
+          <div style="font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap;">+$5</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="test-header">
+      <p class="section-label">Testimonials</p>
+      <h2 class="section-title">What clients <span>say.</span></h2>
+    </div>
+    <div class="test-grid">
+
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <div class="test-text">"I loved the layout, Alex is a great designer! Patiently helped me setup my own Github page for free."</div>
+        <div class="test-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#7efff5,#a78bfa)">GG</div>
+          <div><div class="author-name">Garden of Green</div><div class="author-loc">Business Owner</div></div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <div class="test-text">"Made the landing page for my depop shop. Good communication, fast worker, and great designer. Great stuff bro, much appreciated."</div>
+        <div class="test-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#f9a8d4,#fb923c)">GE</div>
+          <div><div class="author-name">Golden Exchange</div><div class="author-loc">Resale Shop</div></div>
+        </div>
+      </div>
+
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <div class="test-text">"Hired basemakers to design my Airbnb rental website. Results perfectly matched my vision, amazing work."</div>
+        <div class="test-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#a78bfa,#ec4899)">FR</div>
+          <div><div class="author-name">Florida Rentals</div><div class="author-loc">Rental Business</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <p class="section-label" style="justify-content:center;display:flex">Get in touch</p>
+      <h2>Let's build something <span style="background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">great.</span></h2>
+      <p>Have a project in mind? I'd love to hear about it. Reach out on Fiverr, shoot me an email, or check out my GitHub — I'm always open to new collaborations.</p>
+      <div class="contact-links">
+        <a href="https://www.fiverr.com/basemakers/buying?source=avatar_menu_profile" target="_blank" class="contact-link fiverr">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 10.5c-1.1 0-2-.9-2-2h-2c0 2.2 1.8 4 4 4v7h2v-7c0-1.1-.9-2-2-2zm-7 0v9H11V10.5H8V8.5h7v2zm-8.5 0c0 1.1-.9 2-2 2V14c2.2 0 4-1.8 4-4H5zm0-4.5A2.5 2.5 0 115 8.5a2.5 2.5 0 010-2.5z"/></svg>
+          Fiverr Profile
+        </a>
+        <a href="https://github.com/base-html" target="_blank" class="contact-link">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2025 basemakers · Built with HTML &amp; CSS · Hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
